@@ -2640,6 +2640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 5268085509412088984, guid: 921f3aea69c971647a88b09497b857e3, type: 3}
+      propertyPath: gunshotClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1f64752488e70594b8b99d33a724707f, type: 3}
     - target: {fileID: 6088237316468271607, guid: 921f3aea69c971647a88b09497b857e3, type: 3}
       propertyPath: m_CollisionDetection
       value: 2

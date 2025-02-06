@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Pistol : MonoBehaviour
 {
-    [SerializeField] private AudioSource gunshot_audioSource;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip gunshotClip;
     private new ParticleSystem particleSystem;
     private int maxAmmo = 10;
     private int currentAmmo;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
         currentAmmo = maxAmmo;
     }
@@ -29,9 +31,8 @@ public class Pistol : MonoBehaviour
     {
         currentAmmo--;
         particleSystem.Play();
-        gunshot_audioSource.pitch = Random.Range(.8f,1);
-        gunshot_audioSource.Play();
-        Debug.Log("BANG!");
+        audioSource.pitch = Random.Range(.7f, 1);
+        audioSource.PlayOneShot(gunshotClip);
     }
 
     private void NoAmmo()
