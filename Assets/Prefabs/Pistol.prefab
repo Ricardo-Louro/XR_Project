@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5379661515649558787}
   - component: {fileID: 8120045878577447891}
-  - component: {fileID: 2446799163967567999}
+  - component: {fileID: 3306584969491729589}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -98,7 +98,7 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &2446799163967567999
+--- !u!114 &3306584969491729589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,11 +130,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8921493659254178599}
-  - component: {fileID: 7950404271133062864}
   - component: {fileID: 6088237316468271607}
   - component: {fileID: 2273376701846169743}
   - component: {fileID: 5268085509412088984}
   - component: {fileID: 5655799098050911117}
+  - component: {fileID: 7950404271133062864}
+  - component: {fileID: 1656300589325854447}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -158,27 +159,6 @@ Transform:
   - {fileID: 581723069526787773}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!65 &7950404271133062864
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578906858872967588}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.052149773, y: 0.21618414, z: 0.30580908}
-  m_Center: {x: -0.00000011920929, y: -0.0063940287, z: 0.07636899}
 --- !u!54 &6088237316468271607
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -205,7 +185,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &2273376701846169743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,19 +266,7 @@ MonoBehaviour:
         m_CallState: 2
   m_Deactivated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5268085509412088984}
-        m_TargetAssemblyTypeName: Pistol, Assembly-CSharp
-        m_MethodName: TryShoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
@@ -364,7 +332,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f61125c4fc3ee4eb61d0a65d1b643f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunshot_audioSource: {fileID: 5655799098050911117}
+  gunshotClips:
+  - {fileID: 8300000, guid: f6d71ed7ea974f144bbf87234a7b53e1, type: 3}
+  - {fileID: 8300000, guid: 483cc2110f28c35419e420059be8ca38, type: 3}
+  - {fileID: 8300000, guid: f9cb91e3483fff043a7feba10e7017a3, type: 3}
+  - {fileID: 8300000, guid: 8d820ec0c8c164146880645c162e77bd, type: 3}
+  emptyClip: {fileID: 8300000, guid: 1c0fe1d6f712f6748bb45138e9f4100d, type: 3}
+  insertClip: {fileID: 8300000, guid: 594a1912e69c34c4cb7914ba060b7670, type: 3}
+  firingTransform: {fileID: 8904741676041465858}
+  gunshotForce: 1000
+  muzzleFlash: {fileID: 6034620715480369936}
+  hitEffect: {fileID: 0}
 --- !u!82 &5655799098050911117
 AudioSource:
   m_ObjectHideFlags: 0
@@ -375,10 +353,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1f64752488e70594b8b99d33a724707f, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 1f64752488e70594b8b99d33a724707f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -462,6 +440,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7950404271133062864
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578906858872967588}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.052149773, y: 0.21618414, z: 0.30580908}
+  m_Center: {x: -0.00000011920929, y: -0.0063940287, z: 0.07636899}
+--- !u!65 &1656300589325854447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578906858872967588}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.06117469, y: 0.056098342, z: 0.09802269}
+  m_Center: {x: 0.00020372868, y: -0.09185469, z: -0.03163767}
 --- !u!1 &4757814022041455748
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +599,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.02
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1067,7 +1087,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 500
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -1333,7 +1353,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
