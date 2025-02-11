@@ -2,28 +2,34 @@ using UnityEngine;
 
 public class PistolClip : MonoBehaviour
 {
-    [SerializeField] private GameObject clipPrefab;
+    private ClipSpawner clipSpawner;
     private Rigidbody rb;
 
-    private bool summonNew = false;
+    private bool firstTimeGrab = false;
     public bool CanReload { get; private set; } = false;
 
     private void Start()
     {
+        clipSpawner = FindFirstObjectByType<ClipSpawner>();
         rb = GetComponent<Rigidbody>();
     }
 
-    public void SummonNew()
+    public void Grabbed()
     {
-        if(!summonNew)
+        if(!firstTimeGrab)
         {
-            summonNew = true;
-            rb.useGravity = true;
-            GameObject newClip = Instantiate(clipPrefab, transform.position, transform.rotation);
-            newClip.transform.SetParent(transform.parent);
-            transform.SetParent(null);
+            firstTimeGrab = true;
+            clipSpawner.SpawnClipDelayed(1);
         }
     }
+
+    public void Released()
+    {
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        transform.SetParent(null);
+    }
+
     public void ReloadOn()
     {
         CanReload = true;
