@@ -16,12 +16,14 @@ public class Pistol : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private ParticleSystem hitEffect;
 
+    private Animator animator;
     private int maxAmmo = 10;
     private int currentAmmo;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
         currentAmmo = maxAmmo;
     }
 
@@ -40,6 +42,7 @@ public class Pistol : MonoBehaviour
     private void SuccessfulShoot()
     {
         currentAmmo--;
+        animator.SetTrigger("Shoot");
         muzzleFlash.Play();
         PlaySound(gunshotClips[Random.Range(0, gunshotClips.Length)]);
 
