@@ -59,21 +59,23 @@ public class Pistol : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firingTransform.position, firingTransform.forward, out hit))
         {
-            if (hit.collider.GetComponent<Enemy>() != null)
+            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+            if (enemy != null)
             {
-                Destroy(hit.collider.gameObject);<
+                hit.collider.enabled = false;
+                enemy.EnableRagdoll();
             }
             else
             {
                 hitEffect.transform.position = hit.point;
                 hitEffect.transform.forward = firingTransform.position - hit.point;
                 hitEffect.Play();
+            }
 
-                Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.AddForce(hit.transform.position + (firingTransform.forward * gunshotForce), ForceMode.Force);
-                }
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(hit.transform.position + (firingTransform.forward * gunshotForce), ForceMode.Force);
             }
         }
     }

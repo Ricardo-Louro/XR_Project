@@ -2,15 +2,37 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Rigidbody[] ragdollRigidbodies;
+
+    private void Awake()
     {
-        
+        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        DisableRagdoll();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DisableRagdoll()
     {
-        
+        foreach (var rigidbody in ragdollRigidbodies)
+        {
+            rigidbody.isKinematic = true;
+        }
+        SetLayer(gameObject, 3);
+
+    }
+
+    public void EnableRagdoll()
+    {
+        foreach (var rigidbody in ragdollRigidbodies)
+        {
+            rigidbody.isKinematic = false;
+        }
+    }
+
+    private static void SetLayer(GameObject go, int layerNumber)
+    {
+        foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
+        {
+            trans.gameObject.layer = layerNumber;
+        }
     }
 }
