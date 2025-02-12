@@ -14,6 +14,14 @@ public class PistolClip : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Update()
+    {
+        if(!firstTimeGrab)
+        {
+            transform.position = clipSpawner.transform.position;
+            transform.rotation = clipSpawner.transform.rotation;
+        }
+    }
     public void Grabbed()
     {
         if(!firstTimeGrab)

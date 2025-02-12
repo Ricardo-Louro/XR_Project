@@ -16,15 +16,25 @@ public class Pistol : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private ParticleSystem hitEffect;
 
+    private Transform pistolTransform;
     private Animator animator;
+    private bool held = false;
     private int maxAmmo = 10;
-    private int currentAmmo;
+    private int currentAmmo = 0;
 
     private void Start()
     {
+        pistolTransform = FindFirstObjectByType<PistolPosition>().transform;
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-        currentAmmo = maxAmmo;
+    }
+
+    private void Update()
+    {
+        if(!held)
+        {
+            UpdatePosition();
+        }
     }
 
     public void TryShoot()
@@ -51,6 +61,7 @@ public class Pistol : MonoBehaviour
         {
             if (hit.collider.GetComponent<Enemy>() != null)
             {
+                Destroy(hit.collider.gameObject);<
             }
             else
             {
@@ -65,6 +76,12 @@ public class Pistol : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void UpdatePosition()
+    {
+        transform.position = pistolTransform.position;
+        transform.rotation = pistolTransform.rotation;
     }
 
     private void NoAmmo()
@@ -82,6 +99,16 @@ public class Pistol : MonoBehaviour
     {
         audioSource.pitch = Random.Range(.7f, 1);
         audioSource.PlayOneShot(clip);
+    }
+
+    public void Held()
+    {
+        held = true;
+    }
+
+    public void Release()
+    {
+        held = false;
     }
 
     private void OnTriggerEnter(Collider other)
