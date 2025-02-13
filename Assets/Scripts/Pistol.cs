@@ -62,8 +62,7 @@ public class Pistol : MonoBehaviour
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                hit.collider.enabled = false;
-                enemy.EnableRagdoll();
+                enemy.Die();
             }
             else
             {
