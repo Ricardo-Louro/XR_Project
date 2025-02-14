@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuitOnActivate : MonoBehaviour
 {
     private void Start()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 }

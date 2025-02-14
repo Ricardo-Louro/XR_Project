@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private bool active;
+    private bool firstShot = true;
 
     private EndGameHandler handler;
 
@@ -76,29 +77,36 @@ public class Enemy : MonoBehaviour
     }
 
     private void Attack()
-    {     
+    {   
         lastTimeAttacked = Time.time;
         muzzleFlash.Play();
         audioSource.pitch = Random.Range(.7f, 1);
         audioSource.PlayOneShot(gunshotSound[Random.Range(0, gunshotSound.Length)]);
 
-        RaycastHit hit;
-        if(Physics.Raycast(firingTransform.position, playerTransform.position - firingTransform.position, out hit))
+        if(!firstShot)
         {
-            if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
+            RaycastHit hit;
+            if(Physics.Raycast(firingTransform.position, playerTransform.position - firingTransform.position, out hit))
             {
-                playerHealth.Hurt();
-            }
-            else
-            {
-                if(Physics.Raycast(firingTransform.position, cameraTransform.position - firingTransform.position, out hit))
+                if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
                 {
-                    if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
+                    playerHealth.Hurt();
+                }
+                else
+                {
+                    if(Physics.Raycast(firingTransform.position, cameraTransform.position - firingTransform.position, out hit))
                     {
-                        playerHealth.Hurt();
+                        if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
+                        {
+                            playerHealth.Hurt();
+                        }
                     }
                 }
             }
+        }
+        else
+        {
+            firstShot = false;
         }
     }
 
