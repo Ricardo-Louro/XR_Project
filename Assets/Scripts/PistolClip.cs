@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PistolClip : MonoBehaviour
 {
-    private ClipSpawner clipSpawner;
+    public ClipSpawner clipSpawner;
     private Rigidbody rb;
 
     private bool firstTimeGrab = false;
@@ -10,7 +10,6 @@ public class PistolClip : MonoBehaviour
 
     private void Start()
     {
-        clipSpawner = FindFirstObjectByType<ClipSpawner>();
         rb = GetComponent<Rigidbody>();
     }
 

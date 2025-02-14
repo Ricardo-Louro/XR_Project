@@ -21,7 +21,8 @@ public class ClipSpawner : MonoBehaviour
 
     private void SpawnClip()
     {
-        Instantiate(clipPrefab, transform.position, transform.rotation, transform);
+        GameObject clip = Instantiate(clipPrefab, transform.position, transform.rotation, transform);
+        clip.GetComponent<PistolClip>().clipSpawner = this;
     }
 
     public void SpawnClipDelayed(float seconds)

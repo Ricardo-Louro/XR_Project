@@ -4,10 +4,16 @@ public class Enemy : MonoBehaviour
 {
     private bool active;
 
+    private EndGameHandler handler;
+
+    private Vector3 lookAtVector;
+
     private Rigidbody[] ragdollRigidbodies;
 
     private Transform playerTransform;
     private Transform cameraTransform;
+
+    private PlayerHealth playerHealth;
 
     [SerializeField] private float maxAttackRange;
     private float lastTimeAttacked = 0;
@@ -22,18 +28,32 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        handler = FindFirstObjectByType<EndGameHandler>();
+
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         playerTransform = FindFirstObjectByType<PlayerWallBlock>().transform;
         cameraTransform = FindFirstObjectByType<Camera>().transform;
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
         audioSource = GetComponent<AudioSource>();
         DisableRagdoll();
+
+        lookAtVector.y = transform.position.y;
+    }
+
+    private void Start()
+    {
+        handler.AddToList(this);
     }
 
     private void Update()
     {
         if(active)
         {
-            if(Mathf.Abs((transform.position - playerTransform.position).magnitude) <= maxAttackRange)
+            lookAtVector.x = playerTransform.position.x;
+            lookAtVector.z = playerTransform.position.z;
+            transform.LookAt(lookAtVector);
+
+            if (Mathf.Abs((firingTransform.position - playerTransform.position).magnitude) <= maxAttackRange)
             {
                 if(Time.time - lastTimeAttacked >= Random.Range(minAttackCooldown,maxAttackCooldown))
                 {
@@ -44,7 +64,7 @@ public class Enemy : MonoBehaviour
         else
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, cameraTransform.position - transform.position, out hit))
+            if(Physics.Raycast(firingTransform.position, cameraTransform.position - firingTransform.position, out hit))
             {
                 if (hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
                 {
@@ -67,7 +87,7 @@ public class Enemy : MonoBehaviour
         {
             if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
             {
-                //DAMAGE
+                playerHealth.Hurt();
             }
             else
             {
@@ -75,7 +95,7 @@ public class Enemy : MonoBehaviour
                 {
                     if(hit.collider.GetComponentInParent<PlayerWallBlock>() != null)
                     {
-                        //DAMAGE
+                        playerHealth.Hurt();
                     }
                 }
             }
@@ -110,6 +130,9 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        handler.RemoveFromList(this);
+        handler.CheckForEndGame();
+
         audioSource.pitch = Random.Range(.7f, 1);
         audioSource.PlayOneShot(deathSound[Random.Range(0, deathSound.Length)]);
         EnableRagdoll();
